@@ -4,6 +4,7 @@ from typing import Any
 
 from homeassistant.components.utility_meter.sensor import UtilityMeterSensor
 from homeassistant.components.integration.sensor import IntegrationSensor
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import translation
@@ -67,13 +68,13 @@ async def async_setup_entry(hass, entry, async_add_entities):
             unit_time="h",
             integration_method="left",
             unique_id=integral_unique_id,
+            device_class=SensorDeviceClass.ENERGY,
             max_sub_interval=timedelta(seconds=20)
         )
         
         energy_integral_sensor.entity_id = f"sensor.{integral_obj_id}"
         energy_integral_sensor._attr_device_info = device_info
         energy_integral_sensor._attr_native_unit_of_measurement = "kWh"
-        energy_integral_sensor._attr_device_class = "energy"
         energy_integral_sensor._attr_state_class = "total_increasing"
         
         async_add_entities([energy_integral_sensor])
